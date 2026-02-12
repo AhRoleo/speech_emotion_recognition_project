@@ -1,0 +1,48 @@
+# --- ENVIRONNEMENTS VIRTUELS ---
+# Ignore venv, Venv, .venv, etc.
+[Vv]env/
+[Ee]nv/
+.env/
+.venv/
+conda/
+bin/
+lib/
+include/
+share/
+
+# --- PYTHON ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.ipynb_checkpoints/
+
+# --- PYSPARK & LOGS ---
+# Spark génère souvent des dossiers de logs ou de métadonnées
+derby.log
+metastore_db/
+spark-warehouse/
+[Ll]ogs/
+[Cc]heckpoint*/
+*.log
+
+# --- DATASETS (Très important pour le Speech Recognition) ---
+# On ignore les fichiers audio lourds pour ne pas saturer GitHub
+Dataset/
+Data/
+dataset/
+data/
+*.wav
+*.mp3
+*.ogg
+*.flac
+# Si tu as un dossier spécifique pour tes données (ex: data, Data, DATA)
+[Dd][Aa][Tt][Aa]/
+
+# --- SYSTÈME & ÉDITEURS ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
