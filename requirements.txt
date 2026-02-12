@@ -1,0 +1,6 @@
+librosa==0.11.0
+matplotlib==3.10.8
+pyspark==4.1.1
+seaborn==0.13.2
+jupyter
+ipykernel
