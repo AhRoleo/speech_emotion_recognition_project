@@ -87,7 +87,7 @@ def main():
     # 1) Récupérer chemin du parquet (argument CLI ou défaut)
     custom_path = sys.argv[1] if len(sys.argv) > 1 else None
     parquet_path = find_parquet(custom_path)
-    print(f"📂 Chargement de : {parquet_path}")
+    print(f" Chargement de : {parquet_path}")
 
     # 2) Charger le fichier Parquet
     df = pd.read_parquet(parquet_path)
@@ -104,7 +104,7 @@ def main():
 
     scaler_path = os.path.join(OUTPUT_DIR, "scaler.pkl")
     joblib.dump(scaler, scaler_path)
-    print(f"✅ Scaler sauvegardé → {scaler_path}")
+    print(f"Scaler sauvegardé → {scaler_path}")
 
     # 5) Entraîner LabelEncoder
     le = LabelEncoder()
@@ -112,7 +112,7 @@ def main():
 
     le_path = os.path.join(OUTPUT_DIR, "label_encoder.pkl")
     joblib.dump(le, le_path)
-    print(f"✅ LabelEncoder sauvegardé → {le_path}")
+    print(f" LabelEncoder sauvegardé → {le_path}")
     print(f"   Classes détectées : {list(le.classes_)}")
 
 
