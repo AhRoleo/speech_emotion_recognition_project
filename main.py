@@ -11,20 +11,18 @@ BOLD = '\033[1m'
 
 
 def lancer_services():
-    """Lance l'API FastAPI et le Front-End Streamlit en parallèle."""
 
     print(f"{BOLD} Démarrage de l'application SER (Speech Emotion Recognition)...{RESET}\n")
-    # 1. Obtenir les chemins absolus (peu importe d'où le script est lancé)
+
     racine_projet = Path(__file__).parent.absolute()
 
-    # 2. Lancement du Backend (API FastAPI)
+
     print(f"[{BLUE}BACKEND{RESET}] Lancement de l'API FastAPI sur le port 8000...")
     process_api = subprocess.Popen(
         [sys.executable, "-m", "uvicorn", "backend.app:app", "--host", "0.0.0.0", "--port", "8000"],
         cwd=racine_projet
     )
 
-    # On attend 3 secondes pour laisser le temps à l'API de charger les modèles (.pkl et .keras)
     time.sleep(3)
 
     # 3. Lancement du Frontend (Streamlit)
@@ -40,11 +38,10 @@ def lancer_services():
     print(f"\n{BOLD}(Appuyez sur Ctrl+C dans ce terminal pour tout fermer proprement.){RESET}\n")
 
     try:
-        # Garde le script principal ouvert pendant que les deux sous-processus tournent
+
         process_api.wait()
         process_front.wait()
     except KeyboardInterrupt:
-        # Si vous faites Ctrl+C, on ferme proprement l'API et Streamlit
         print(f"\n{BOLD} Arrêt des services demandé...{RESET}")
         process_api.terminate()
         process_front.terminate()

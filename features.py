@@ -14,7 +14,6 @@ Composition du vecteur de features (185 dimensions) :
     [56:184]  Mel Spectro    — 128 valeurs
     [184]     Entropy Energy — 1 valeur
 """
-
 import io
 import os
 

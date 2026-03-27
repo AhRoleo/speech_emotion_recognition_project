@@ -1,15 +1,3 @@
-"""
-Application FastAPI pour le service de prédiction SER (Speech Emotion Recognition).
-
-Endpoints :
-    GET  /health   — Vérifie l’état de l’API
-    GET  /models   — Liste les modèles disponibles
-    POST /predict  — Prédiction d’émotion à partir d’un fichier audio
-"""
-
-# ============================================================
-# 1) IMPORTS ET CONFIGURATION GLOBALE
-# ============================================================
 
 import os
 import sys
