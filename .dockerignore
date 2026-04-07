@@ -1,0 +1,62 @@
+# ── Environnements virtuels ───────────────────────────────────
+venv/
+.venv/
+env/
+Env/
+conda/
+bin/
+lib/
+include/
+share/
+
+# ── Python cache ──────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+
+# ── Notebooks (lourds avec leurs outputs) ────────────────────
+*.ipynb
+.ipynb_checkpoints/
+
+# ── Données audio et datasets (très lourds) ───────────────────
+Dataset/
+Data/
+data/
+dataset/
+*.wav
+*.mp3
+*.ogg
+*.flac
+
+# ── Répertoires de features Parquet (lourds) ─────────────────
+train_features.parquet/
+test_features.parquet/
+
+# ── Fichiers de configuration / dev ──────────────────────────
+.git/
+.gitignore
+.vscode/
+.idea/
+*.swp
+*.DS_Store
+Thumbs.db
+
+# ── Fichiers de documentation projet ─────────────────────────
+*.xlsx
+*.txt
+*.md
+
+# ── Logs Spark / PySpark ──────────────────────────────────────
+derby.log
+metastore_db/
+spark-warehouse/
+logs/
+checkpoint*/
+
+# Les fichiers INCLUS (ne pas ignorer) :
+# ✅ features.py, main.py, save_scaler.py
+# ✅ *.keras  (modèles ML — ~5 Mo)
+# ✅ *.pkl    (scaler & label_encoder)
+# ✅ backend/, front-end/, model_api/, pipeline/
+# ✅ requirements.txt

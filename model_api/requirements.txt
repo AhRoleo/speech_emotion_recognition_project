@@ -1,0 +1,13 @@
+# ── C3 Model API — dépendances runtime ────────────────────────
+# TensorFlow est la dépendance majeure (~2 Go d'image)
+
+fastapi>=0.115.0
+uvicorn>=0.34.0
+
+# TensorFlow pour le chargement et l'inférence des modèles .keras
+tensorflow>=2.19.0
+
+# Prédiction / normalisation
+scikit-learn>=1.6.0
+joblib>=1.4.0
+numpy>=2.0.0

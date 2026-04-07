@@ -1,0 +1,7 @@
+Le container C1 est le front-end. Il communique avec le back-end C2. Le front envoie l'audio puis le back renvoie la prédiction. 
+
+Le container C2 reçoit l'audio, le traite pour l'API C3. L'API lui renvoie la prédiction. Le back enregistre aussi l'audio dans un volume V1 qui contient déjà des données d'entrainement et va juste enrichir le dataset pour des futurs entraînements. 
+
+Le container C3 est l'API model. Il reçoit l'audiio traité et renvoie une prédiction au back-end. Il pioche aussi les modèles  disponibles dans un volume V2
+
+C4 est le pipeline (Engine). Il pioche dans le volume V1 pour entraîner ses modèles et enregistre les modèles dans V2 pour la mise à disposition de l'API model C3

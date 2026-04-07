@@ -1,0 +1,14 @@
+# ── C2 Backend — dépendances runtime uniquement ───────────────
+# (sans pyspark, jupyter, matplotlib, seaborn — inutiles à l'API)
+
+fastapi>=0.115.0
+uvicorn>=0.34.0
+python-multipart>=0.0.20
+
+# Communication interne vers C3 (model-api)
+httpx>=0.28.0
+
+# Extraction de features audio
+librosa==0.11.0
+soundfile>=0.13.0
+numpy>=2.0.0

@@ -1,0 +1,104 @@
+# ============================================================
+# SER — Speech Emotion Recognition
+# Architecture : 4 containers + 2 volumes partagés
+#
+#  C1 (frontend)  →  C2 (backend)  →  C3 (model-api)
+#                                               ↑ lit V2 (modèles)
+#  C2 écrit audios → V1 (dataset)
+#  C4 (pipeline)  ← lit V1, écrit → V2 toutes les 24h
+# ============================================================
+
+networks:
+  ser-network:
+    driver: bridge
+
+volumes:
+  ser-dataset:   # V1 — audios uploadés classés par émotion (pseudo-labels)
+  ser-models:    # V2 — modèles .keras, scaler.pkl, label_encoder.pkl
+
+services:
+
+  # ── C1 ── Frontend Streamlit ─────────────────────────────
+  frontend:
+    build:
+      context: .
+      dockerfile: front-end/Dockerfile
+    container_name: ser-frontend
+    ports:
+      - "8501:8501"
+    environment:
+      - BACKEND_URL=http://backend:8000
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - ser-network
+    restart: unless-stopped
+
+  # ── C2 ── Backend FastAPI (orchestrateur) ─────────────────
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: ser-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - MODEL_API_URL=http://model-api:8001
+      - SER_DATASET_DIR=/data/dataset
+    volumes:
+      - ser-dataset:/data/dataset
+    depends_on:
+      model-api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    networks:
+      - ser-network
+    restart: unless-stopped
+
+  # ── C3 ── Model API (prédiction pure) ─────────────────────
+  model-api:
+    build:
+      context: .
+      dockerfile: model_api/Dockerfile
+    container_name: ser-model-api
+    ports:
+      - "8001:8001"
+    environment:
+      - SER_MODELS_DIR=/models
+      - SER_SCALER_PATH=/models/scaler.pkl
+      - SER_LABEL_ENCODER_PATH=/models/label_encoder.pkl
+    volumes:
+      - ser-models:/models
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 15s
+      retries: 5
+      start_period: 90s   # TensorFlow prend du temps à charger
+    networks:
+      - ser-network
+    restart: unless-stopped
+
+  # ── C4 ── Pipeline d'entraînement (toutes les 24h) ────────
+  pipeline:
+    build:
+      context: .
+      dockerfile: pipeline/Dockerfile
+    container_name: ser-pipeline
+    environment:
+      - SER_DATASET_DIR=/data/dataset
+      - SER_MODELS_DIR=/models
+      - TRAINING_INTERVAL_HOURS=24
+      - MIN_TRAINING_SAMPLES=50
+    volumes:
+      - ser-dataset:/data/dataset
+      - ser-models:/models
+    networks:
+      - ser-network
+    restart: unless-stopped

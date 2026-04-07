@@ -1,0 +1,12 @@
+# ── C4 Pipeline — dépendances runtime ────────────────────────
+# TensorFlow pour l'entraînement des modèles
+tensorflow>=2.19.0
+
+# Extraction de features audio
+librosa==0.11.0
+soundfile>=0.13.0
+numpy>=2.0.0
+
+# Preprocessing scikit-learn + sauvegarde joblib
+scikit-learn>=1.6.0
+joblib>=1.4.0
