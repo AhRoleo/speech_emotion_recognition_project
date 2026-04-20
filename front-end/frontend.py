@@ -2,6 +2,8 @@
 # 1) IMPORTS & CONFIGURATION DE LA PAGE
 # ============================================================
 
+import os
+
 import streamlit as st
 import requests
 import time
@@ -14,10 +16,10 @@ st.set_page_config(
     layout="centered"
 )
 
-# URL de l'API FastAPI (modifiable dans la sidebar)
+URL = os.environ.get("BACKEND_URL", "http://localhost:8000")
 API_URL = st.sidebar.text_input(
     "URL de l'API",
-    value="http://localhost:8000",
+    value=URL,
     key="api_url"
 )
 

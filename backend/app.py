@@ -6,10 +6,10 @@ from pathlib import Path
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
-# Permet d'importer features.py situé dans le dossier parent
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+# # Permet d'importer features.py situé dans le dossier parent
+# sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from features import EMOTION_DISPLAY, extract_features  # noqa: E402
+from backend.features import EMOTION_DISPLAY, extract_features  # noqa: E402
 
 from .model_manager import ModelManager  # noqa: E402
 from .schemas import (  # noqa: E402
@@ -27,7 +27,7 @@ from .schemas import (  # noqa: E402
 PROJECT_DIR = str(Path(__file__).resolve().parent.parent)
 
 # Dossier contenant les modèles .keras
-MODELS_DIR = os.environ.get("SER_MODELS_DIR", PROJECT_DIR)
+MODELS_DIR = os.environ.get("SER_MODELS_DIR", os.path.join(PROJECT_DIR, "Models"))
 
 # Chemins du scaler et du label encoder
 SCALER_PATH = os.environ.get("SER_SCALER_PATH", os.path.join(PROJECT_DIR, "scaler.pkl"))

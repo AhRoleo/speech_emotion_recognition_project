@@ -1,0 +1,72 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+    container_name: ser_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - models_volume:/app/models
+    environment:
+      - SER_MODELS_DIR=/app/models
+      - SER_SCALER_PATH=/app/models/scaler.pkl
+      - SER_LABEL_ENCODER_PATH=/app/models/label_encoder.pkl
+    networks:
+      - serving_network
+      - internal_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  frontend:
+    build: ./front-end
+    container_name: ser_frontend
+    ports:
+      - "8501:8501"
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      - BACKEND_URL=http://backend:8000
+    networks:
+      - serving_network
+
+  processing:
+    build: ./processing/
+    container_name: ser_processing
+    volumes:
+      - ./Dataset:/data/
+    environment:
+      DATASET_DIR: /data/
+    networks:
+      - internal_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8020/ready"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  training:
+    build: ./training/
+    container_name: ser_training
+    volumes:
+      - ./Dataset/processed:/data/processed
+      - models_volume:/app/models
+    environment:
+      PROCESSED_DATA_DIR: /data/processed
+      MODELS_DIR: /app/models
+    depends_on:
+      processing:
+        condition: service_healthy
+    networks:
+      - internal_network
+
+volumes:
+  models_volume: {}
+
+networks:
+  serving_network: {}
+  internal_network: {}
