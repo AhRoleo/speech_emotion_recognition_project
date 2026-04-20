@@ -55,12 +55,12 @@ services:
     volumes:
       - ./Dataset/processed:/data/processed
       - models_volume:/app/models
-    environment:
-      PROCESSED_DATA_DIR: /data/processed
-      MODELS_DIR: /app/models
     depends_on:
       processing:
         condition: service_healthy
+    environment:
+      PROCESSED_DATA_DIR: /data/processed
+      MODELS_DIR: /app/models
     networks:
       - internal_network
 

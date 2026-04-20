@@ -5,7 +5,7 @@ from fastapi import FastAPI, BackgroundTasks, HTTPException
 from pydantic import BaseModel
 import traceback
 
-from processing.process_data import run_processing
+from process_data import run_processing
 
 app = FastAPI()
 
@@ -20,7 +20,7 @@ class ProcessResponse(BaseModel):
     message: str
     state: str
 
-DATASET_DIR = os.environ.get("DATASET_DIR", "Dataset/")
+DATASET_DIR = os.environ.get("DATASET_DIR", "../Dataset/")
 PROCESSED_DATA_DIR = DATASET_DIR + "processed"
 
 REQUIRED_FILES = [
