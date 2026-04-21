@@ -44,7 +44,7 @@ services:
     networks:
       - internal_network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8020/ready"]
+      test: ["CMD", "curl", "-f", "http://localhost:8020/health"]
       interval: 5s
       timeout: 3s
       retries: 5
@@ -61,6 +61,7 @@ services:
     environment:
       PROCESSED_DATA_DIR: /data/processed
       MODELS_DIR: /app/models
+      PROCESSING_API_URL: http://processing:8020
     networks:
       - internal_network
 
